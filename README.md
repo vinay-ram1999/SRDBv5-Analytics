@@ -3,7 +3,7 @@ Exploratory data analysis and visualisation of a global Soil Respiration Databas
 
 * To see the Tableau dashboard visit [SRDB_Dashboard](https://public.tableau.com/app/profile/vinay.ram.gazula7737/viz/SRDB_dashboard/SRDB_Dashboard) 
 
-(tableau/SRDB_Dashboard.png)
+![](https://github.com/vinay-ram1999/SRDBv5-Analytics/blob/master/tableau/SRDB_Dashboard.png)
 
 Dataset citation
 ----------------
