@@ -541,6 +541,14 @@ DROP COLUMN Manipulation;
 
 -- Fill in the '' values with NULL
 UPDATE stagging_srdb_data
+SET Biome = NULL
+WHERE Biome LIKE '';
+
+UPDATE stagging_srdb_data
+SET Ecosystem_type = NULL
+WHERE Ecosystem_type LIKE '';
+
+UPDATE stagging_srdb_data
 SET Ecosystem_state = NULL
 WHERE Ecosystem_state LIKE '';
 

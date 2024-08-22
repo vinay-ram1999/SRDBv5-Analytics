@@ -64,7 +64,7 @@ FROM species_type
 WHERE Species IS NOT NULL;
 
 -- Create a temporary table or a view for stagging_srdb_data + manipulation
-CREATE VIEW srdb_data_manipulation AS
+CREATE OR REPLACE VIEW srdb_data_manipulation AS
 SELECT *
 FROM stagging_srdb_data AS srdb
 NATURAL JOIN manipulation AS mnp;
@@ -73,7 +73,7 @@ SELECT * FROM srdb_data_manipulation;
 
 -- Create a temporary table or a view for stagging_srdb_data + species 
 -- (temporary tables are faster that views but they reside in RAM so it makes the computer a bit slow)
-CREATE VIEW srdb_data_species AS
+CREATE OR REPLACE VIEW srdb_data_species AS
 SELECT *
 FROM stagging_srdb_data AS srdb
 NATURAL JOIN species AS sps;
@@ -113,7 +113,7 @@ LIMIT 3),
 country_year_rsannual AS (
 SELECT Country, Study_midyear, AVG(Rs_annual) AS avg_Rs_annual, COUNT(*) AS num_of_records
 FROM stagging_srdb_data
-WHERE Rs_annual != 0
+WHERE Rs_annual > 0
 GROUP BY Country, Study_midyear
 HAVING Country IN (SELECT Country FROM top_countries)),
 country_year_rsannual_ranking AS (
@@ -135,7 +135,7 @@ LIMIT 5),
 country_region_year_rsannual AS (
 SELECT Country, Region, FLOOR(Study_midyear) AS Study_year, AVG(Rs_annual) AS avg_Rs_annual, COUNT(*) AS num_of_records
 FROM stagging_srdb_data
-WHERE Rs_annual != 0
+WHERE Rs_annual > 0
 GROUP BY Country, Region, FLOOR(Study_midyear)
 HAVING Country IN (SELECT Country FROM top_country_region) AND Region IN (SELECT Region FROM top_country_region)),
 country_region_year_rsannual_ranking AS (
@@ -145,4 +145,12 @@ FROM country_region_year_rsannual)
 SELECT * 
 FROM country_region_year_rsannual_ranking
 WHERE ranking <= 5;
+
+
+SELECT Country, AVG(Rs_annual) AS avg_Rs_annual
+FROM stagging_srdb_data
+WHERE Rs_annual > 0
+GROUP BY Country
+ORDER BY avg_Rs_annual DESC;
+
 
